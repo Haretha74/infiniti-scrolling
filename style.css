@@ -1,0 +1,11 @@
+/* ul {
+    width: 10vw;
+    margin: 50px auto;
+} */
+ul li {
+    list-style-type: none;
+    font-size: 24px;
+    color: red;
+    line-height: 100px;
+
+}
