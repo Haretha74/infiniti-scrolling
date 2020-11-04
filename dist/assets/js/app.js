@@ -12,9 +12,7 @@ function getNewPokemons(offset) {
     count = data.count;
     data.results.forEach(function (result) {
       var clone = template.content.cloneNode(true);
-      clone.querySelector("li").innerText = result.name; // var li = document.createElement("li");
-      // li.innerText = result.name;
-
+      clone.querySelector("li").innerText = result.name;
       pokeList.appendChild(clone);
     });
     var lastChiled = document.querySelector(".pokeList li:last-child");
