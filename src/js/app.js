@@ -1,7 +1,17 @@
     let offset = 0;
     let count;
+    function getImage(url) {
+        return fetch(url)
+        .then (function(response) {
+            return response.json() ;
+
+          })
+          .then (function(data) {
+              return data.sprites.front_default;
+          });
+    }
     function getNewPokemons(offset) {
-    fetch(`https://pokeapi.co/api/v2/pokemon?limit=10&offset=${offset}`)
+fetch(`https://pokeapi.co/api/v2/pokemon?limit=10&offset=${offset}`)
     .then(res => res.json())
     .then(data => {
         var template = document.getElementById("template");
@@ -10,7 +20,16 @@
 
         data.results.forEach(function(result) {
             var clone = template.content.cloneNode(true);
-            clone.querySelector("li").innerText = result.name;
+            var name = clone.querySelector(".pokeName");
+            var img = clone.querySelector('.pokeImg');
+            name.innerText = result.name;
+
+            getImage(result.url)
+            .then(function(imageURL) {
+                img.dataset.src = imageURL;
+                imageObserver.observe(img);
+
+            });
             
             pokeList.appendChild(clone);
         });
@@ -25,6 +44,16 @@ var observer = new IntersectionObserver(function(entries) {
     offset = offset + 10;
     if(offset > count) return;
     getNewPokemons(offset);
+}, {
+    threshold: 1
+});
+
+var imageObserver = new IntersectionObserver(function(entries) {
+
+    if(entries[0].intersectionRatio <= 0) return; 
+    observer.unobserve(entries[0].target);
+    entries[0].target.src = entries[0].target.dataset.src;
+    
 }, {
     threshold: 1
 });

@@ -33,20 +33,20 @@ function processJs() {
 	.pipe(gulp.dest("dist/assets/js"))
 		.pipe(connect.reload());
 }
-// function processImages() {
-// 	return gulp.src(["src/images/**/*", "!src/images/**/thumb.db"])
-// 	.pipe(imagemin([
-// 		imagemin.mozjpeg({quality: 75}),
-// 		imagemin.optipng({optimizationLevel: 1})
-// 	]))
-// 	 .pipe(imagResize({
-// 		width: 500,
-// 		crop: false,
-// 		upscale: false
-// 	})) 
-// 	.pipe(gulp.dest("dist/assets/media"))
-// 	.pipe(connect.reload())
-// }
+function processImages() {
+	return gulp.src(["src/images/**/*", "!src/images/**/thumb.db"])
+	.pipe(imagemin([
+		imagemin.mozjpeg({quality: 25}),
+		imagemin.optipng({optimizationLevel: 1})
+	]))
+	 .pipe(imagResize({
+		width: 50,
+		crop: false,
+		upscale: false
+	})) 
+	.pipe(gulp.dest("dist/assets/media"))
+	.pipe(connect.reload())
+}
 
 function watch() {
 	gulp.watch("src/sass/**/*.scss",
@@ -58,9 +58,9 @@ function watch() {
 	gulp.watch("src/js/**/*.js",
 	{ ignoreInitial: false },
 	processJs);
-	// gulp.watch("src/images/**/*",
-	// {ignoreInitial: false},
-	// processImages);
+	gulp.watch("src/images/**/*",
+	{ignoreInitial: false},
+	processImages);
 }
 
 function server() {
